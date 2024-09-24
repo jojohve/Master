@@ -1,17 +1,16 @@
-package main.java;
-
-import main.java.controllers.LoginController;
-import main.java.controllers.OrderController;
-import main.java.controllers.ProductController;
-import main.java.controllers.UserController;
-import main.java.models.Order;
-import main.java.models.Product;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import controllers.LoginController;
+import controllers.OrderController;
+import controllers.ProductController;
+import controllers.UserController;
+import models.Order;
+import models.Product;
 
 public class Master {
     public static void main(String[] args) {

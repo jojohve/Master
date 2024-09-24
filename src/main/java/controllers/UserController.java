@@ -1,4 +1,4 @@
-package main.java.controllers;
+package controllers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,8 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.models.User;
-import main.java.utils.JWTUtil;
+import models.User;
+import utils.JWTUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserController {

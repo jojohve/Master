@@ -1,9 +1,10 @@
-package main.java.controllers;
+package controllers;
 
-import main.java.models.User;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
+
+import models.User;
 
 public class LoginController {
     private UserController userController;

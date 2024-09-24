@@ -1,6 +1,6 @@
-package main.java.controllers;
+package controllers;
 
-import main.java.models.Product;
+import models.Product;
 
 import java.sql.*;
 import java.util.ArrayList;

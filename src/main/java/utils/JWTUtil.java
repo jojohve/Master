@@ -1,4 +1,4 @@
-package main.java.utils;
+package utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
