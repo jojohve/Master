@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JWTUtil {
-    private final String SECRET_KEY = "your_secret_key"; // Cambia con la tua chiave segreta
+    private final String SECRET_KEY = "your_secret_key";
     private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 ora
 
     public String generateToken(String username) {

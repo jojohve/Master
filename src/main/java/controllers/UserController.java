@@ -22,14 +22,14 @@ public class UserController {
         this.connection = connection;
         this.jwtUtil = new JWTUtil();
         this.currentUserId = -1;
-        this.passwordEncoder = new BCryptPasswordEncoder(); // Inizializza l'encoder
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     public void addUser(User user) throws SQLException {
         if (usernameExists(user.getUsername())) {
             throw new SQLException("Username already exists.");
         }
-        String hashedPassword = passwordEncoder.encode(user.getPassword()); // Usa l'encoder
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
         String sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, user.getUsername());
