@@ -136,18 +136,28 @@ public class Master {
                         selectedProducts.clear();
                         System.out.println("Ordine cancellato e carrello svuotato.");
                         break;
-                    case 6:
+                        case 6:
                         Order newOrder = new Order();
                         newOrder.getProducts().addAll(selectedProducts);
                         newOrder.setTotal(selectedProducts.stream().mapToDouble(Product::getPrice).sum());
-
+                    
                         int userId = userController.getCurrentUserId();
-
-                        orderController.addOrder(newOrder, userId);
-                        orderController.addProductsToOrder(newOrder.getId(), selectedProducts);
-                        System.out.println("Ordine confermato:\n" + newOrder);
-                        selectedProducts.clear();
-                        break;
+                    
+                        if (userId <= 0) {
+                            System.out.println("Errore: ID utente non valido. Assicurati di essere loggato correttamente.");
+                            break;
+                        }
+                    
+                        try {
+                            orderController.addOrder(newOrder, userId);
+                            orderController.addProductsToOrder(newOrder.getId(), selectedProducts);
+                            System.out.println("Ordine confermato:\n" + newOrder);
+                        } catch (SQLException e) {
+                            System.out.println("Errore durante l'aggiunta dell'ordine: " + e.getMessage());
+                        } finally {
+                            selectedProducts.clear();
+                        }
+                        break;                                      
                     case 7:
                         scanner.close();
                         System.out.println("Uscita dal programma...");

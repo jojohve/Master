@@ -15,12 +15,31 @@ public class OrderController {
     }
 
     public void addOrder(Order order, int userId) throws SQLException {
+        if (!userExists(userId)) {
+            throw new SQLException("User ID " + userId + " does not exist in the database.");
+        }
+        
         String sql = "INSERT INTO orders (user_id, total) VALUES (?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, userId);
             statement.setDouble(2, order.getTotal());
             statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Failed to add order: " + e.getMessage());
         }
+    }
+    
+    private boolean userExists(int userId) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM users WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+        }
+        return false;
     }    
 
     private List<String> getProductNames(List<Product> products) {
