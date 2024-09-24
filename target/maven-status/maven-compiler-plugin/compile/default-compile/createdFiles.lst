@@ -1,8 +1,10 @@
 main\java\controllers\OrderController.class
 main\java\models\Product.class
 main\java\models\User.class
+main\java\controllers\LoginController.class
 main\java\controllers\ProductController.class
 main\java\models\Order.class
+main\java\utils\JWTUtil.class
 main\java\Master.class
 main\java\utils\DatabaseManager.class
 main\java\controllers\UserController.class

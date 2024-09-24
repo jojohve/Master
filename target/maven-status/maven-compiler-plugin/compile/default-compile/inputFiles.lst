@@ -2,7 +2,9 @@ D:\Desktop\Joseph La Luna D\Progetti\informatica\Master\src\main\java\controller
 D:\Desktop\Joseph La Luna D\Progetti\informatica\Master\src\main\java\utils\DatabaseManager.java
 D:\Desktop\Joseph La Luna D\Progetti\informatica\Master\src\main\java\models\Order.java
 D:\Desktop\Joseph La Luna D\Progetti\informatica\Master\src\main\java\models\Product.java
+D:\Desktop\Joseph La Luna D\Progetti\informatica\Master\src\main\java\controllers\LoginController.java
 D:\Desktop\Joseph La Luna D\Progetti\informatica\Master\src\main\java\Master.java
 D:\Desktop\Joseph La Luna D\Progetti\informatica\Master\src\main\java\models\User.java
+D:\Desktop\Joseph La Luna D\Progetti\informatica\Master\src\main\java\utils\JWTUtil.java
 D:\Desktop\Joseph La Luna D\Progetti\informatica\Master\src\main\java\controllers\OrderController.java
 D:\Desktop\Joseph La Luna D\Progetti\informatica\Master\src\main\java\controllers\ProductController.java
