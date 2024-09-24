@@ -24,12 +24,8 @@ public class Master {
             OrderController orderController = new OrderController(connection);
             ProductController productController = new ProductController(connection);
 
-            User newUser = new User("username", "email@example.com", "password");
-            userController.addUser(newUser);
-
             List<User> users = userController.getAllUsers();
             System.out.println("Users: " + users);
-
 
         } catch (SQLException e) {
             e.printStackTrace();

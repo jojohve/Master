@@ -14,6 +14,9 @@ public class UserController {
     }
 
     public void addUser(User user) throws SQLException {
+        if (usernameExists(user.getUsername())) {
+            throw new SQLException("Username already exists.");
+        }
         String sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, user.getUsername());
@@ -21,6 +24,18 @@ public class UserController {
             stmt.setString(3, user.getPassword());
             stmt.executeUpdate();
         }
+    }
+
+    private boolean usernameExists(String username) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM users WHERE username = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+        return false;
     }
 
     public List<User> getAllUsers() throws SQLException {
