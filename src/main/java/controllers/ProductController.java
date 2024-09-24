@@ -1,6 +1,6 @@
-package main.java.controllers;
+package controllers;
 
-import main.java.models.Product;
+import models.Product;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,11 +22,23 @@ public class ProductController {
         }
     }
 
+    public Product getProductById(int id) throws SQLException {
+        String sql = "SELECT * FROM products WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"));
+            }
+        }
+        return null;
+    }
+
     public List<Product> getAllProducts() throws SQLException {
         List<Product> products = new ArrayList<>();
         String sql = "SELECT * FROM products";
         try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+                ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 Product product = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"));
                 products.add(product);

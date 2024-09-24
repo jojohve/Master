@@ -1,4 +1,4 @@
-package main.java.models;
+package models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,13 @@ public class Order {
 
     public Order(int id) {
         this.id = id;
+        this.products = new ArrayList<>();
+        this.tempCart = new ArrayList<>();
+        this.total = 0.0;
+    }
+
+    public Order() {
+        this.id = 0;
         this.products = new ArrayList<>();
         this.tempCart = new ArrayList<>();
         this.total = 0.0;
@@ -40,6 +47,16 @@ public class Order {
             System.out.println("Ordine confermato con successo.");
         } else {
             System.out.println("Non ci sono prodotti nel carrello da confermare.");
+        }
+    }
+
+    public void modifyOrder(Product oldProduct, Product newProduct) {
+        if (tempCart.contains(oldProduct)) {
+            tempCart.remove(oldProduct);
+            tempCart.add(newProduct);
+            System.out.println(oldProduct.getName() + " è stato sostituito con " + newProduct.getName() + ".");
+        } else {
+            System.out.println("Il prodotto " + oldProduct.getName() + " non è presente nel carrello.");
         }
     }
 

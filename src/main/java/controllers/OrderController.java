@@ -1,7 +1,7 @@
-package main.java.controllers;
+package controllers;
 
-import main.java.models.Order;
-import main.java.models.Product;
+import models.Order;
+import models.Product;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,14 +14,33 @@ public class OrderController {
         this.connection = connection;
     }
 
-    public void addOrder(Order order) throws SQLException {
-        String sql = "INSERT INTO orders (products, total) VALUES (?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, String.join(", ", getProductNames(order.getProducts())));
-            stmt.setDouble(2, order.getTotal());
-            stmt.executeUpdate();
+    public void addOrder(Order order, int userId) throws SQLException {
+        if (!userExists(userId)) {
+            throw new SQLException("User ID " + userId + " does not exist in the database.");
+        }
+        
+        String sql = "INSERT INTO orders (user_id, total) VALUES (?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, userId);
+            statement.setDouble(2, order.getTotal());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Failed to add order: " + e.getMessage());
         }
     }
+    
+    private boolean userExists(int userId) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM users WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+        }
+        return false;
+    }    
 
     private List<String> getProductNames(List<Product> products) {
         List<String> names = new ArrayList<>();
@@ -90,5 +109,19 @@ public class OrderController {
             e.printStackTrace();
         }
         return products;
+    }
+
+    public void addProductsToOrder(int orderId, List<Product> products) {
+        String sql = "INSERT INTO order_products (order_id, product_id, quantity) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            for (Product product : products) {
+                stmt.setInt(1, orderId);
+                stmt.setInt(2, product.getId());
+                stmt.setInt(3, 1);
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
