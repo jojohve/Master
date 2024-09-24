@@ -2,12 +2,12 @@ package main.java.models;
 
 public class User {
     private String username;
-    private String name;
+    private String email;
     private String password;
 
-    public User(String username, String name, String password) {
+    public User(String username, String email, String password) {
         this.username = username;
-        this.name = name;
+        this.email = email;
         this.password = password;
     }
 
@@ -19,12 +19,12 @@ public class User {
         this.username = username;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -38,9 +38,9 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-               "username='" + username + '\'' +
-               ", name='" + name + '\'' +
-               ", password='" + password + '\'' +
-               '}';
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
