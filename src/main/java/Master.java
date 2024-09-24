@@ -1,5 +1,4 @@
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,21 +10,18 @@ import controllers.ProductController;
 import controllers.UserController;
 import models.Order;
 import models.Product;
+import utils.DatabaseManager;
 
 public class Master {
     public static void main(String[] args) {
         List<Product> selectedProducts = new ArrayList<>();
-        String url = "jdbc:mysql://localhost:3306/Master";
-        String user = "root";
-        String password = "";
 
-        try (Connection connection = DriverManager.getConnection(url, user, password);
-                Scanner scanner = new Scanner(System.in)) { // Crea il Scanner qui
+        try (Connection connection = DatabaseManager.getConnection();
+                Scanner scanner = new Scanner(System.in)) {
 
             OrderController orderController = new OrderController(connection);
             ProductController productController = new ProductController(connection);
             UserController userController = new UserController(connection);
-
             LoginController loginController = new LoginController(connection, scanner);
             loginController.login();
 
