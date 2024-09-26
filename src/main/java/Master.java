@@ -9,13 +9,13 @@ import controllers.OrderController;
 import controllers.ProductController;
 import controllers.UserController;
 import models.Order;
+import models.OrderProduct;
 import models.Product;
 import utils.DatabaseManager;
 
 public class Master {
     public static void main(String[] args) {
         List<Product> selectedProducts = new ArrayList<>();
-
         try (Connection connection = DatabaseManager.getConnection();
                 Scanner scanner = new Scanner(System.in)) {
 
@@ -136,28 +136,35 @@ public class Master {
                         selectedProducts.clear();
                         System.out.println("Ordine cancellato e carrello svuotato.");
                         break;
-                        case 6:
+                    case 6:
                         Order newOrder = new Order();
                         newOrder.getProducts().addAll(selectedProducts);
                         newOrder.setTotal(selectedProducts.stream().mapToDouble(Product::getPrice).sum());
-                    
+
                         int userId = userController.getCurrentUserId();
-                    
+
                         if (userId <= 0) {
-                            System.out.println("Errore: ID utente non valido. Assicurati di essere loggato correttamente.");
+                            System.out.println(
+                                    "Errore: ID utente non valido. Assicurati di essere loggato correttamente.");
                             break;
                         }
-                    
+
                         try {
                             orderController.addOrder(newOrder, userId);
-                            orderController.addProductsToOrder(newOrder.getId(), selectedProducts);
+                            List<OrderProduct> orderProducts = new ArrayList<>();
+
+                            for (Product product : selectedProducts) {
+                                orderProducts.add(new OrderProduct(product.getId(), product.getQuantity()));
+                            }
+
+                            orderController.confirmOrder(userId, orderProducts);
                             System.out.println("Ordine confermato:\n" + newOrder);
                         } catch (SQLException e) {
                             System.out.println("Errore durante l'aggiunta dell'ordine: " + e.getMessage());
                         } finally {
                             selectedProducts.clear();
                         }
-                        break;                                      
+                        break;
                     case 7:
                         scanner.close();
                         System.out.println("Uscita dal programma...");

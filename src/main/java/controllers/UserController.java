@@ -8,9 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import models.User;
 import utils.JWTUtil;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserController {
     private Connection connection;

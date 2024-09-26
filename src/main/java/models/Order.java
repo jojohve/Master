@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Order {
     private int id;
-    private List<Product> products;
+    private List<OrderProduct> products;
     private List<Product> tempCart;
     private double total;
 
@@ -77,7 +77,7 @@ public class Order {
         this.id = id;
     }
 
-    public List<Product> getProducts() {
+    public List<OrderProduct> getProducts() {
         return products;
     }
 

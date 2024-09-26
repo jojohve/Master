@@ -1,10 +1,15 @@
 package controllers;
 
-import models.Product;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import models.OrderProduct;
+import models.Product;
 
 public class ProductController {
     private Connection connection;
@@ -36,15 +41,34 @@ public class ProductController {
 
     public List<Product> getAllProducts() throws SQLException {
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM products";
+        String sql = "SELECT id, product_name, product_price FROM products";
         try (Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                Product product = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"));
-                products.add(product);
+                int productId = rs.getInt("id");
+                String productName = rs.getString("product_name");
+                double price = rs.getDouble("product_price");
+                products.add(new Product(productId, productName, price));
             }
         }
         return products;
+    }
+
+    public List<OrderProduct> getOrderProducts(int orderId) throws SQLException {
+        List<OrderProduct> orderProducts = new ArrayList<>();
+        String sql = "SELECT order_id, product_id, quantity FROM order_products WHERE order_id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, orderId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    int productId = rs.getInt("product_id");
+                    int quantity = rs.getInt("quantity");
+                    orderProducts.add(new OrderProduct(orderId, productId, quantity));
+                }
+            }
+        }
+        return orderProducts;
     }
 
     public void updateProduct(Product product) throws SQLException {
