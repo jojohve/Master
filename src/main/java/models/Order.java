@@ -4,69 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
+    private List<Product> products; 
     private int id;
-    private List<Product> products;
-    private List<Product> tempCart;
+    private int userId;
     private double total;
 
-    public Order(int id) {
-        this.id = id;
-        this.products = new ArrayList<>();
-        this.tempCart = new ArrayList<>();
-        this.total = 0.0;
-    }
-
     public Order() {
-        this.id = 0;
         this.products = new ArrayList<>();
-        this.tempCart = new ArrayList<>();
-        this.total = 0.0;
     }
 
-    public void addProductToCart(Product product) {
-        tempCart.add(product);
-        System.out.println(product.getName() + " aggiunto al carrello.");
+    public Order(int id, int userId, double total) {
+        this.id = id;
+        this.userId = userId;
+        this.total = total;
+        this.products = new ArrayList<>();
     }
 
-    public void viewCart() {
-        if (tempCart.isEmpty()) {
-            System.out.println("Il carrello è vuoto.");
-        } else {
-            System.out.println("Prodotti nel carrello:");
-            for (Product product : tempCart) {
-                System.out.println("- " + product.getName() + ": €" + product.getPrice());
-            }
-        }
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void confirmOrder() {
-        if (!tempCart.isEmpty()) {
-            products.addAll(tempCart);
-            total = calculateTotal();
-            tempCart.clear();
-            System.out.println("Ordine confermato con successo.");
-        } else {
-            System.out.println("Non ci sono prodotti nel carrello da confermare.");
-        }
-    }
-
-    public void modifyOrder(Product oldProduct, Product newProduct) {
-        if (tempCart.contains(oldProduct)) {
-            tempCart.remove(oldProduct);
-            tempCart.add(newProduct);
-            System.out.println(oldProduct.getName() + " è stato sostituito con " + newProduct.getName() + ".");
-        } else {
-            System.out.println("Il prodotto " + oldProduct.getName() + " non è presente nel carrello.");
-        }
-    }
-
-    public void cancelOrder() {
-        tempCart.clear();
-        System.out.println("Ordine cancellato. Il carrello è stato svuotato.");
-    }
-
-    private double calculateTotal() {
-        return products.stream().mapToDouble(Product::getPrice).sum();
+    public void addProduct(Product product) {
+        products.add(product);
     }
 
     public int getId() {
@@ -77,8 +36,12 @@ public class Order {
         this.id = id;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public double getTotal() {
@@ -87,18 +50,10 @@ public class Order {
 
     public void setTotal(double total) {
         this.total = total;
-    }    
+    }
 
     @Override
     public String toString() {
-        StringBuilder productNames = new StringBuilder();
-        for (Product product : products) {
-            productNames.append(product.getName()).append(", ");
-        }
-        return "Order{" +
-               "id=" + id +
-               ", products=" + productNames.toString() +
-               ", total=EUR " + String.format(java.util.Locale.US, "%.2f", total) +  // Formattazione con punto decimale
-               '}';
-    }   
+        return "Order ID: " + id + ", User ID: " + userId + ", Total: " + total + ", Products: " + products;
+    }
 }

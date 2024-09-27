@@ -9,13 +9,13 @@ import controllers.OrderController;
 import controllers.ProductController;
 import controllers.UserController;
 import models.Order;
+import models.OrderProduct;
 import models.Product;
 import utils.DatabaseManager;
 
 public class Master {
     public static void main(String[] args) {
         List<Product> selectedProducts = new ArrayList<>();
-
         try (Connection connection = DatabaseManager.getConnection();
                 Scanner scanner = new Scanner(System.in)) {
 
@@ -138,7 +138,6 @@ public class Master {
                         break;
                         case 6:
                         Order newOrder = new Order();
-                        newOrder.getProducts().addAll(selectedProducts);
                         newOrder.setTotal(selectedProducts.stream().mapToDouble(Product::getPrice).sum());
                     
                         int userId = userController.getCurrentUserId();
@@ -149,15 +148,25 @@ public class Master {
                         }
                     
                         try {
-                            orderController.addOrder(newOrder, userId);
-                            orderController.addProductsToOrder(newOrder.getId(), selectedProducts);
+                            orderController.addOrder(newOrder, userId); 
+                    
+                            List<OrderProduct> orderProducts = new ArrayList<>();
+                            int orderId = newOrder.getId(); 
+                    
+                            for (Product selectedProduct : selectedProducts) {
+                                long quantity = selectedProducts.stream().filter(p -> p.getId() == selectedProduct.getId()).count();
+                                orderProducts.add(new OrderProduct(orderId, selectedProduct.getId(), (int) quantity));
+                                newOrder.addProduct(selectedProduct); 
+                            }
+                    
+                            orderController.confirmOrder(userId, orderProducts);
                             System.out.println("Ordine confermato:\n" + newOrder);
                         } catch (SQLException e) {
                             System.out.println("Errore durante l'aggiunta dell'ordine: " + e.getMessage());
                         } finally {
                             selectedProducts.clear();
                         }
-                        break;                                      
+                        break;                    
                     case 7:
                         scanner.close();
                         System.out.println("Uscita dal programma...");
