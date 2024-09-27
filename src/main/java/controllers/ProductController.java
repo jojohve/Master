@@ -41,16 +41,20 @@ public class ProductController {
 
     public List<Product> getAllProducts() throws SQLException {
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT id, product_name, product_price FROM products";
-        try (Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                int productId = rs.getInt("id");
-                String productName = rs.getString("product_name");
-                double price = rs.getDouble("product_price");
-                products.add(new Product(productId, productName, price));
-            }
+        String sql = "SELECT id, name, price FROM products";
+
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+        while (rs.next()) {
+            int productId = rs.getInt("id");
+            String productName = rs.getString("name");
+            double price = rs.getDouble("price");
+            products.add(new Product(productId, productName, price));
         }
+
+        rs.close();
+        stmt.close();
         return products;
     }
 

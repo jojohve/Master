@@ -76,7 +76,7 @@ public class UserController {
             int index = 2;
 
             if (user.getPassword() != null) {
-                String hashedPassword = passwordEncoder.encode(user.getPassword()); // Usa l'encoder
+                String hashedPassword = passwordEncoder.encode(user.getPassword());
                 stmt.setString(index++, hashedPassword);
             }
 
@@ -101,7 +101,7 @@ public class UserController {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 String hashedPassword = rs.getString("password");
-                if (passwordEncoder.matches(password, hashedPassword)) { // Usa l'encoder per la verifica
+                if (passwordEncoder.matches(password, hashedPassword)) {
                     currentUserId = rs.getInt("id");
                     return jwtUtil.generateToken(username);
                 }

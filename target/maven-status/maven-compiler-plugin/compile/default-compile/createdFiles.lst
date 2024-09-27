@@ -1,6 +1,7 @@
 controllers\OrderController.class
 controllers\LoginController.class
 Master.class
+models\OrderProduct.class
 models\Product.class
 models\User.class
 controllers\UserController.class

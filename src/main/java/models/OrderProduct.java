@@ -1,9 +1,9 @@
 package models;
 
 public class OrderProduct {
-    private int orderId;
-    private int productId;
-    private int quantity;
+    private int orderId;  
+    private int productId;  
+    private int quantity;    
 
     public OrderProduct(int orderId, int productId, int quantity) {
         this.orderId = orderId;
@@ -37,6 +37,6 @@ public class OrderProduct {
 
     @Override
     public String toString() {
-        return "OrderProduct [orderId=" + orderId + ", productId=" + productId + ", quantity=" + quantity + "]";
+        return "OrderProduct { Order ID: " + orderId + ", Product ID: " + productId + ", Quantity: " + quantity + " }";
     }
 }
