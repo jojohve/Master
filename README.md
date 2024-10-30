@@ -1,4 +1,4 @@
-Master - Gestione Ordini
+Master in Back End Developer - Gestione Ordini
 Descrizione
 
 Master è un'applicazione Java per la gestione di utenti, prodotti e ordini. Consente di gestire un sistema di ordini con una semplice interfaccia e un backend Java.
